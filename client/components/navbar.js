@@ -2,7 +2,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 export default (props) => {
-  const {logout, isLoggedIn, history} = props;
+  const {logout, isLoggedIn, history, location} = props;
+  const { pathname } = location;
   return (
     <div>
       <h1>FS-App-Template</h1>
@@ -18,8 +19,8 @@ export default (props) => {
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
+            <Link to="/login" className={ pathname === '/login' ? 'selected': ''}>Login</Link>
+            <Link to="/signup" className={ pathname === '/signup' ? 'selected': ''}>Sign Up</Link>
           </div>
         )}
       </nav>

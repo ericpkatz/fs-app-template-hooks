@@ -7,7 +7,17 @@ import AuthForm from './components/AuthForm';
 import Home from './components/Home';
 
 const App = () => {
+
   const [auth, setAuth] = useState({});
+
+  useEffect(()=> {
+    loginFromToken();
+  }, []);
+
+  useEffect(()=> {
+    console.log(`auth id changed ${auth.id}`);
+  }, [auth.id]);
+
   const isLoggedIn = !!auth.id;
 
   const loginFromToken = async()=> {
@@ -23,19 +33,12 @@ const App = () => {
   };
 
   const authenticate  = async({ credentials, method })=> {
-    let response = await axios.post(`/auth/${ method }`, credentials)
+    const response = await axios.post(`/auth/${ method }`, credentials)
     const { token } = response.data;
     window.localStorage.setItem('token', token)
     loginFromToken();
   };
 
-  useEffect(()=> {
-    loginFromToken();
-  }, []);
-
-  useEffect(()=> {
-    console.log(auth.id);
-  }, [auth.id]);
 
   const login = (credentials)=> {
     return authenticate({ method: 'login', credentials});
