@@ -21,22 +21,28 @@ const App = () => {
       setAuth(data);
     }
   };
-  useEffect(()=> {
-    loginFromToken();
-  }, []);
 
-  const login = async(credentials)=> {
-    let response = await axios.post(`/auth/login`, credentials)
+  const authenticate  = async({ credentials, method })=> {
+    let response = await axios.post(`/auth/${ method }`, credentials)
     const { token } = response.data;
     window.localStorage.setItem('token', token)
     loginFromToken();
   };
 
-  const signup = async(credentials)=> {
-    let response = await axios.post(`/auth/signup`, credentials)
-    const { token } = response.data;
-    window.localStorage.setItem('token', token)
+  useEffect(()=> {
     loginFromToken();
+  }, []);
+
+  useEffect(()=> {
+    console.log(auth.id);
+  }, [auth.id]);
+
+  const login = (credentials)=> {
+    return authenticate({ method: 'login', credentials});
+  };
+
+  const signup = (credentials)=> {
+    return authenticate({ method: 'signup', credentials});
   };
 
   const logout = (history)=> {
